@@ -1,0 +1,12 @@
+{
+  "name": "nova-storefront",
+  "version": "1.0.0",
+  "description": "NOVA premium menswear storefront with REST API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js"
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.3"
+  }
+}

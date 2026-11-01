@@ -1,0 +1,404 @@
+4
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#08080b" />
+  <title>NOVA — Premium Menswear, Shoes, Bags & Watches</title>
+  <script>
+    try {
+      if (JSON.parse(localStorage.getItem('nova_theme_v1')) === 'light') {
+        document.documentElement.dataset.theme = 'light';
+        document.querySelector('meta[name="theme-color"]').content = '#f6f5f1';
+      }
+    } catch (error) {
+      // Theme persistence is optional when browser storage is unavailable.
+    }
+  </script>
+  <link rel="stylesheet" href="nova.css" />
+</head>
+
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <div class="container header-inner">
+      <a class="logo" href="#" onclick="goStore();return false;">NOVA<span>.</span></a>
+
+      <nav class="nav" id="nav">
+        <a data-cat="all" class="active">All Products</a>
+        <a data-cat="shoes">Dress</a>
+        <a data-cat="bags">Bags</a>
+        <a data-cat="pants">Pants</a>
+        <a data-cat="suits">Suits</a>
+        <a data-cat="watches">Watches</a>
+        <a data-view="orders">Order History</a>
+        <a onclick="openAdmin();return false;">Admin</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to light mode"
+          title="Switch to light mode" aria-pressed="false">
+          <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+          </svg>
+          <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z" />
+          </svg>
+        </button>
+        <button class="icon-btn" id="searchBtn" aria-label="Search" title="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.6-3.6" />
+          </svg>
+        </button>
+        <button class="icon-btn" id="adminBtn" aria-label="Admin panel" title="Admin panel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h11M19 17h1" />
+            <circle cx="15" cy="7" r="2" />
+            <circle cx="9" cy="12" r="2" />
+            <circle cx="17" cy="17" r="2" />
+          </svg>
+        </button>
+        <button class="icon-btn" id="cartBtn" aria-label="Cart" title="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M6 7.5h12l-1.1 9.1a2 2 0 0 1-2 1.8H9.1a2 2 0 0 1-2-1.8L6 7.5z" />
+            <path d="M9.2 7.5V6a2.8 2.8 0 0 1 5.6 0v1.5" />
+          </svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="icon-btn hamburger" id="hamburger" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= STORE VIEW ================= -->
+  <main id="storeView">
+
+    <section class="hero">
+      <div class="container">
+        <div class="eyebrow">✦ New Season Collection 2026</div>
+        <h1>Dress Sharp.<br>Move <em>Different.</em></h1>
+        <p class="lead">Precision-tailored suits, hand-finished dress shoes, full-grain leather bags
+          and Swiss-grade timepieces — curated for the modern gentleman.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="scrollToShop()">Shop the Collection</button>
+          <button class="btn btn-ghost" onclick="setCat('suits')">Explore Suits</button>
+        </div>
+        <div class="hero-stats">
+          <div><b id="heroProducts">60+</b><small>Products</small></div>
+          <div><b>5</b><small>Categories</small></div>
+          <div><b>4.8★</b><small>Avg. Rating</small></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="trustbar">
+      <div class="container">
+        <span><i>✦</i> Free shipping over PKR 200</span>
+        <span><i>✦</i> 30-day easy returns</span>
+        <span><i>✦</i> Authenticity guaranteed</span>
+        <span><i>✦</i> Secure checkout</span>
+      </div>
+    </div>
+
+    <section class="shop" id="shopSection">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>The Collection</h2>
+            <p>Every piece, carefully selected.</p>
+          </div>
+        </div>
+
+        <div class="chips" id="chips"></div>
+
+        <div class="toolbar">
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="11" cy="11" r="7" />
+              <path d="M20 20l-3.6-3.6" />
+            </svg>
+            <input class="field" id="searchInput" type="search" placeholder="Search products…" autocomplete="off">
+          </div>
+          <select class="field" id="sortSelect">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+            <option value="rating">Top Rated</option>
+            <option value="name">Name: A → Z</option>
+          </select>
+          <span class="result-count" id="resultCount"></span>
+        </div>
+
+        <div class="grid" id="grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= ORDER HISTORY VIEW ================= -->
+  <section id="orderHistoryView" class="order-history-wrap" hidden>
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Order History</h2>
+          <p>Your completed orders saved on this device.</p>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="goStore()">← Back to Store</button>
+      </div>
+      <div id="orderHistoryList"></div>
+    </div>
+  </section>
+
+  <!-- ================= ADMIN VIEW ================= -->
+  <section id="adminView" class="admin-wrap" hidden>
+    <div class="container">
+
+      <!-- login -->
+      <div class="admin-login" id="adminLogin">
+        <div class="login-card">
+          <div class="login-brand">NOVA<span>.</span></div>
+          <div class="lock" aria-hidden="true">🔐</div>
+          <h2>Admin Access</h2>
+          <p>Sign in to manage your NOVA catalogue.</p>
+          <form id="adminLoginForm">
+            <label class="lbl" for="adminIdentifier">Email or phone number</label>
+            <input class="field login-identifier" id="adminIdentifier" name="identifier" type="text"
+              placeholder="Enter your email or phone number" autocomplete="username" required>
+            <label class="lbl" for="pwInput">Password</label>
+            <div class="password-field">
+              <input class="field" id="pwInput" type="password" placeholder="Enter your password"
+                autocomplete="current-password" required>
+              <button class="password-toggle" id="passwordToggle" type="button" aria-label="Show password"
+                aria-pressed="false">Show</button>
+            </div>
+            <div class="login-err" id="loginErr" role="alert" aria-live="polite">Incorrect password. Try again.</div>
+            <button class="btn btn-primary btn-block" id="loginBtn" type="submit">Sign In</button>
+          </form>
+          <button class="login-back" type="button" onclick="goStore()">← Back to Store</button>
+        </div>
+      </div>
+
+      <!-- panel -->
+      <div id="adminPanel" hidden>
+        <div class="admin-head">
+          <div>
+            <h1>Dashboard</h1>
+            <p>Manage products, stock and pricing.</p>
+          </div>
+          <div class="admin-head-actions">
+            <button class="btn btn-ghost btn-sm" onclick="goStore()">← Back to Store</button>
+            <button class="btn btn-danger btn-sm" id="logoutBtn">Log out</button>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><small>Total Products</small><b id="stProducts">0</b></div>
+          <div class="stat"><small>Inventory Value</small><b class="gold" id="stValue">PKR 0</b></div>
+          <div class="stat"><small>Categories</small><b id="stCats">0</b></div>
+          <div class="stat"><small>Low Stock (≤5)</small><b class="warn" id="stLow">0</b></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Products <span style="color:var(--muted);font-weight:500" id="tblCount"></span></h3>
+            <div class="panel-tools">
+              <div class="search-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="M20 20l-3.6-3.6" />
+                </svg>
+                <input class="field" id="adminSearch" type="search" placeholder="Search…" autocomplete="off">
+              </div>
+              <select class="field" id="adminCatFilter"
+                style="padding:9px 34px 9px 13px;font-size:13px;border-radius:10px">
+                <option value="all">All categories</option>
+                <option value="shoes">Dress Shoes</option>
+                <option value="bags">Bags</option>
+                <option value="pants">Pants</option>
+                <option value="suits">Suits</option>
+                <option value="watches">Watches</option>
+              </select>
+              <button class="btn btn-primary btn-sm" id="addProductBtn">+ Add Product</button>
+              <button class="btn btn-ghost btn-sm" id="resetBtn">Reset Demo</button>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Rating</th>
+                  <th style="text-align:right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="logo" style="margin-bottom:14px">NOVA<span>.</span></div>
+          <p>Premium menswear, footwear and accessories — engineered for those who
+            understand that detail is everything.</p>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <ul>
+            <li><a data-cat="shoes">Dress Shoes</a></li>
+            <li><a data-cat="bags">Bags</a></li>
+            <li><a data-cat="pants">Pants</a></li>
+            <li><a data-cat="suits">Suits</a></li>
+            <li><a data-cat="watches">Watches</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a>Shipping & Returns</a></li>
+            <li><a>Size Guide</a></li>
+            <li><a>Care Instructions</a></li>
+            <li><a>Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 NOVA. All rights reserved.</span>
+        <button onclick="openAdmin()">Admin Panel</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= OVERLAY ================= -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- ================= CART DRAWER ================= -->
+  <aside class="drawer" id="cartDrawer" aria-label="Shopping cart">
+    <div class="drawer-head">
+      <h3>Your Cart <span id="cartItemsLabel">(0 items)</span></h3>
+      <button class="close-btn" data-close-cart aria-label="Close">×</button>
+    </div>
+    <div class="drawer-body" id="cartBody"></div>
+    <div class="drawer-foot">
+      <form id="checkoutForm">
+        <div class="checkout-fields" id="checkoutFields">
+          <div>
+            <label class="lbl" for="customerName">Name</label>
+            <input class="field" id="customerName" name="name" autocomplete="name" required maxlength="100">
+          </div>
+          <div>
+            <label class="lbl" for="customerPhone">Phone Number</label>
+            <input class="field" id="customerPhone" name="tel" type="tel" autocomplete="tel" inputmode="tel"
+              pattern="[+0-9() .-]{7,20}" title="Enter a valid phone number" required maxlength="20">
+          </div>
+          <div>
+            <label class="lbl" for="customerAddress">Address</label>
+            <textarea class="field" id="customerAddress" name="street-address" autocomplete="street-address" rows="2"
+              required maxlength="300"></textarea>
+          </div>
+        </div>
+        <div id="cartSummary"></div>
+      </form>
+    </div>
+  </aside>
+
+  <!-- ================= PRODUCT MODAL ================= -->
+  <div class="modal" id="productModal">
+    <div class="modal-card">
+      <button class="close-btn modal-close" data-close-modal aria-label="Close">×</button>
+      <div class="pm-grid" id="pmBody"></div>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN EDITOR MODAL ================= -->
+  <div class="modal" id="editorModal">
+    <div class="modal-card sm" style="padding:26px 24px">
+      <button class="close-btn modal-close" data-close-editor aria-label="Close">×</button>
+      <h2 id="editorTitle" style="font-size:19px;letter-spacing:-.02em;margin-bottom:20px">Add Product</h2>
+      <form id="editorForm" novalidate>
+        <div class="form-grid">
+          <div class="full">
+            <label class="lbl" for="fName">Product Name</label>
+            <input class="field" id="fName" required maxlength="70" placeholder="e.g. Oxford Classic Black">
+          </div>
+          <div class="full">
+            <label class="lbl" for="fImage">Product Picture</label>
+            <input class="field" id="fImage" type="file" accept="image/jpeg,image/png,image/gif,image/webp">
+            <small class="image-help">Choose a JPG, PNG, GIF, or WebP image up to 5 MB. Images are optimized when
+              saved.</small>
+            <div class="image-preview" id="fImagePreview" hidden></div>
+          </div>
+          <div>
+            <label class="lbl" for="fCat">Category</label>
+            <select class="field" id="fCat">
+              <option value="shoes">Dress Shoes</option>
+              <option value="bags">Bags</option>
+              <option value="pants">Pants</option>
+              <option value="suits">Suits</option>
+              <option value="watches">Watches</option>
+            </select>
+          </div>
+          <div>
+            <label class="lbl" for="fStock">Stock</label>
+            <input class="field" id="fStock" type="number" min="0" step="1" value="10">
+          </div>
+          <div>
+            <label class="lbl" for="fPrice">Price (PKR)</label>
+            <input class="field" id="fPrice" type="number" min="0" step="1" value="199" required>
+          </div>
+          <div>
+            <label class="lbl" for="fOld">Compare-at Price (PKR)</label>
+            <input class="field" id="fOld" type="number" min="0" step="1" placeholder="optional">
+          </div>
+          <div class="full">
+            <label class="lbl" for="fBadge">Badge</label>
+            <select class="field" id="fBadge">
+              <option value="">None</option>
+              <option value="New">New</option>
+              <option value="Bestseller">Bestseller</option>
+              <option value="Limited">Limited</option>
+              <option value="Sale">Sale</option>
+            </select>
+          </div>
+          <div class="full">
+            <label class="lbl" for="fDesc">Description</label>
+            <textarea class="field" id="fDesc" maxlength="260" placeholder="Short product description…"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" data-close-editor>Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveBtn">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= TOAST ================= -->
+  <div class="toast" id="toast"><i>✦</i><span id="toastMsg">Added to cart</span></div>
+
+  <script src="nova.js"></script>
+</body>
+
+</html>
